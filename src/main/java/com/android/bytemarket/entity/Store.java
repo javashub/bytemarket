@@ -1,9 +1,8 @@
 package com.android.bytemarket.entity;
 
-import com.baomidou.mybatisplus.annotation.TableName;
-import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.*;
 import com.baomidou.mybatisplus.extension.activerecord.Model;
-import com.baomidou.mybatisplus.annotation.TableId;
+
 import java.time.LocalDateTime;
 import java.io.Serializable;
 
@@ -41,13 +40,16 @@ public class Store extends Model<Store> {
      */
     private Integer type;
 
+    @TableField(fill = FieldFill.INSERT)
     private LocalDateTime createTime;
 
+    @TableField(fill = FieldFill.UPDATE)
     private LocalDateTime updateTime;
 
     /**
      * 0表示可以查询，1表示屏蔽查询
      */
+    @TableLogic
     private Integer deleted;
 
 

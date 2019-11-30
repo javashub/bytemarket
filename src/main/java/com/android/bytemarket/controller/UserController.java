@@ -1,7 +1,9 @@
 package com.android.bytemarket.controller;
 
 
+import com.android.bytemarket.common.ServerResponse;
 import com.android.bytemarket.entity.User;
+import com.android.bytemarket.entity.request.LoginRequest;
 import com.android.bytemarket.service.UserService;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,8 +26,7 @@ public class UserController {
     private UserService userService;
 
     @RequestMapping(value = "/register")
-    @ResponseBody
-    public List<User> userRegister() {
+    public List<User> register() {
 
         List<User> list = userService.list();
 
@@ -33,13 +34,13 @@ public class UserController {
     }
 
     @RequestMapping(value = "/login")
-    public String userLogin() {
-        QueryWrapper<User> wrapper = new QueryWrapper<User>();
-        int count = userService.count(wrapper);
-        if (count > 0) {
-            return "登录成功";
+    public ServerResponse login(LoginRequest request) {
+
+        User user = userService.login(request.getUsername(), request.getPassword());
+        if (user!= null) {
+            return ServerResponse.ofSuccess("登录成功",user);
         } else {
-            return "用户名或密码错误";
+            return ServerResponse.ofError("用户名或密码错误");
         }
     }
 }
