@@ -1,8 +1,8 @@
 package com.android.bytemarket.service.impl;
 
-import com.android.bytemarket.entity.User;
-import com.android.bytemarket.dao.UserDao;
-import com.android.bytemarket.service.UserService;
+import com.android.bytemarket.entity.School;
+import com.android.bytemarket.dao.SchoolDao;
+import com.android.bytemarket.service.SchoolService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.stereotype.Service;
 
@@ -15,6 +15,6 @@ import org.springframework.stereotype.Service;
  * @since 2019-11-30
  */
 @Service
-public class UserServiceImpl extends ServiceImpl<UserDao, User> implements UserService {
+public class SchoolServiceImpl extends ServiceImpl<SchoolDao, School> implements SchoolService {
 
 }

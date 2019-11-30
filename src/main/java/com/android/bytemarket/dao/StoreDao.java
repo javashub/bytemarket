@@ -1,6 +1,6 @@
 package com.android.bytemarket.dao;
 
-import com.android.bytemarket.entity.User;
+import com.android.bytemarket.entity.Store;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 
 /**
@@ -11,6 +11,6 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
  * @author lequal
  * @since 2019-11-30
  */
-public interface UserDao extends BaseMapper<User> {
+public interface StoreDao extends BaseMapper<Store> {
 
 }

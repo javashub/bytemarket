@@ -1,6 +1,6 @@
 package com.android.bytemarket.service;
 
-import com.android.bytemarket.entity.User;
+import com.android.bytemarket.entity.Category;
 import com.baomidou.mybatisplus.extension.service.IService;
 
 /**
@@ -11,6 +11,6 @@ import com.baomidou.mybatisplus.extension.service.IService;
  * @author lequal
  * @since 2019-11-30
  */
-public interface UserService extends IService<User> {
+public interface CategoryService extends IService<Category> {
 
 }

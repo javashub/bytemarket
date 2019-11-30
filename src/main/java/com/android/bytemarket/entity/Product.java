@@ -1,43 +1,82 @@
 package com.android.bytemarket.entity;
 
 import java.math.BigDecimal;
-import java.util.List;
+import com.baomidou.mybatisplus.annotation.TableName;
+import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.extension.activerecord.Model;
+import com.baomidou.mybatisplus.annotation.TableId;
+import java.time.LocalDateTime;
+import com.baomidou.mybatisplus.annotation.TableField;
+import java.io.Serializable;
 
 /**
- * @author: 15760
- * @Date: 2019/11/28
- * @Descripe:
+ * <p>
+ * 
+ * </p>
+ *
+ * @author lequal
+ * @since 2019-11-30
  */
-public class Product {
-    private Integer productId;//商品id
-    private String title;//商品标题
-    private BigDecimal price;//商品价格
-    private String description;//商品描述
-    private Integer owner;//商品发布者
-    private Integer issell;//是否卖出，默认0表示未卖出，1表示已卖出
-    private Integer buyer;//购买者
-    private List<String> productPic;//商品图片，多张图片的地址
+@TableName("tb_product")
+public class Product extends Model<Product> {
 
-    @Override
-    public String toString() {
-        return "Product{" +
-                "productId=" + productId +
-                ", title='" + title + '\'' +
-                ", price=" + price +
-                ", description='" + description + '\'' +
-                ", ownerId=" + owner +
-                ", issell=" + issell +
-                ", buyerId=" + buyer +
-                ", productPic=" + productPic +
-                '}';
+    private static final long serialVersionUID=1L;
+
+    /**
+     * 商品id
+     */
+    @TableId(value = "id", type = IdType.AUTO)
+    private Integer id;
+
+    /**
+     * 商品标题
+     */
+    private String title;
+
+    /**
+     * 商品价格
+     */
+    private BigDecimal price;
+
+    /**
+     * 商品描述
+     */
+    private String description;
+
+    /**
+     * 发布者
+     */
+    private Integer owner;
+
+    /**
+     * 默认0表示未卖出，1表示已经卖出
+     */
+    private Integer issell;
+
+    /**
+     * 购买者
+     */
+    private Integer buyer;
+
+    /**
+     * 商品图片
+     */
+    @TableField("productPic")
+    private String productPic;
+
+    private LocalDateTime createTime;
+
+    private LocalDateTime updateTime;
+
+    private Integer deleted;
+
+
+    public Integer getId() {
+        return id;
     }
 
-    public Integer getProductId() {
-        return productId;
-    }
-
-    public void setProductId(Integer productId) {
-        this.productId = productId;
+    public void setId(Integer id) {
+        this.id = id;
     }
 
     public String getTitle() {
@@ -88,11 +127,57 @@ public class Product {
         this.buyer = buyer;
     }
 
-    public List<String> getProductPic() {
+    public String getProductPic() {
         return productPic;
     }
 
-    public void setProductPic(List<String> productPic) {
+    public void setProductPic(String productPic) {
         this.productPic = productPic;
+    }
+
+    public LocalDateTime getCreateTime() {
+        return createTime;
+    }
+
+    public void setCreateTime(LocalDateTime createTime) {
+        this.createTime = createTime;
+    }
+
+    public LocalDateTime getUpdateTime() {
+        return updateTime;
+    }
+
+    public void setUpdateTime(LocalDateTime updateTime) {
+        this.updateTime = updateTime;
+    }
+
+    public Integer getDeleted() {
+        return deleted;
+    }
+
+    public void setDeleted(Integer deleted) {
+        this.deleted = deleted;
+    }
+
+    @Override
+    protected Serializable pkVal() {
+        return this.id;
+    }
+
+    @Override
+    public String toString() {
+        return "Product{" +
+        "id=" + id +
+        ", title=" + title +
+        ", price=" + price +
+        ", description=" + description +
+        ", owner=" + owner +
+        ", issell=" + issell +
+        ", buyer=" + buyer +
+        ", productPic=" + productPic +
+        ", createTime=" + createTime +
+        ", updateTime=" + updateTime +
+        ", deleted=" + deleted +
+        "}";
     }
 }
