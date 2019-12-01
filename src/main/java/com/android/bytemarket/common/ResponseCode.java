@@ -14,5 +14,4 @@ public enum ResponseCode {
 
     private int code;
     private String desc;
-
 }
