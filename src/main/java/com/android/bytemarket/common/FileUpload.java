@@ -10,12 +10,13 @@ import com.qiniu.util.StringMap;
  */
 public class FileUpload {
 
-    String accessKey = "6sLzFMI1OuMEabWiej9QZ7p1NRK0OYR5tv808xVn";
-    String secretKey = "lmr9I8cQVlPEL8YVFNFkPVqCnkOZ--CHWBNxvj9X";
-    String bucket = "bucket name";
-    String key = "file key";
+    static String accessKey = "6sLzFMI1OuMEabWiej9QZ7p1NRK0OYR5tv808xVn";
+    static String secretKey = "lmr9I8cQVlPEL8YVFNFkPVqCnkOZ--CHWBNxvj9X";
+    static String bucket = "bucket name";//需要上传的空间名
+    static String filePath = "";
+    static String key = "file key";
 
-    public void upLoad() {
+    public static void upLoad() {
 
         Auth auth = Auth.create(accessKey, secretKey);
         StringMap putPolicy = new StringMap();
@@ -25,6 +26,4 @@ public class FileUpload {
         System.out.println(upToken);
 
     }
-
-
 }

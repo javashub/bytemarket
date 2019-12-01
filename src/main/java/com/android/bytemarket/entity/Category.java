@@ -28,7 +28,7 @@ public class Category extends Model<Category> {
     /**
      * 类别名称
      */
-    private String categoryName;
+    private String name;
 
     @Override
     protected Serializable pkVal() {
@@ -39,7 +39,7 @@ public class Category extends Model<Category> {
     public String toString() {
         return "Category{" +
         "id=" + id +
-        ", categoryName=" + categoryName +
+        ", name=" + name +
         "}";
     }
 }

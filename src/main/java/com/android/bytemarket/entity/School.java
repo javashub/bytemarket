@@ -31,8 +31,11 @@ public class School extends Model<School> {
     /**
      * 学校名字
      */
-    @TableField("schoolName")
-    private String schoolName;
+    private String name;
+
+    private String avatar;
+
+    private String description;
 
     @TableField(fill = FieldFill.INSERT)
     private LocalDateTime createTime;
@@ -43,19 +46,4 @@ public class School extends Model<School> {
     @TableLogic
     private Integer deleted;
 
-    @Override
-    protected Serializable pkVal() {
-        return this.id;
-    }
-
-    @Override
-    public String toString() {
-        return "School{" +
-        "id=" + id +
-        ", schoolName=" + schoolName +
-        ", createTime=" + createTime +
-        ", updateTime=" + updateTime +
-        ", deleted=" + deleted +
-        "}";
-    }
 }

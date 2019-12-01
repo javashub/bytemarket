@@ -47,23 +47,18 @@ public class Product extends Model<Product> {
     /**
      * 发布者
      */
-    private Integer owner;
+    private Integer userId;
 
     /**
      * 默认0表示未卖出，1表示已经卖出
      */
-    private Integer issell;
+    private Integer status;
 
-    /**
-     * 购买者
-     */
-    private Integer buyer;
 
     /**
      * 商品图片
      */
-    @TableField("productPic")
-    private String productPic;
+    private String images;
 
     @TableField(fill = FieldFill.INSERT)
     private LocalDateTime createTime;
@@ -80,20 +75,5 @@ public class Product extends Model<Product> {
         return this.id;
     }
 
-    @Override
-    public String toString() {
-        return "Product{" +
-        "id=" + id +
-        ", title=" + title +
-        ", price=" + price +
-        ", description=" + description +
-        ", owner=" + owner +
-        ", issell=" + issell +
-        ", buyer=" + buyer +
-        ", productPic=" + productPic +
-        ", createTime=" + createTime +
-        ", updateTime=" + updateTime +
-        ", deleted=" + deleted +
-        "}";
-    }
+
 }
