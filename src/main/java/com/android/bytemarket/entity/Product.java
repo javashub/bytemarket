@@ -60,6 +60,10 @@ public class Product extends Model<Product> {
      */
     private String images;
 
+    private Integer categoryId;
+
+    private Integer schoolId;
+
     @TableField(fill = FieldFill.INSERT)
     private LocalDateTime createTime;
 

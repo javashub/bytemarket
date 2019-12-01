@@ -28,26 +28,27 @@ public class ProductController {
     private ProductService productService;
 
     @GetMapping("/list")
-    public ServerResponse list(@RequestParam(defaultValue = "1")Integer page, @RequestParam(defaultValue = "10")Integer limit){
+    public ServerResponse list(@RequestParam(defaultValue = "1")Integer page, @RequestParam(defaultValue = "10")Integer limit,@RequestParam(required = false)Integer cid){
         Page<Product> bannerPage = new Page<>(page,limit);
         QueryWrapper<Product> wrapper = new QueryWrapper<>();
-        wrapper.orderByAsc("update_time");
+        wrapper.orderByDesc("update_time");
+        wrapper.eq(cid!=null,"category_id",cid);
         IPage<Product> pages = productService.page(bannerPage, wrapper);
         return ServerResponse.ofSuccess(pages);
     }
 
     @GetMapping("/search")
     public ServerResponse search(@RequestParam(required = false) String key,@RequestParam(required = false) String price,
-                                 @RequestParam(required = false) String time,@RequestParam(required = false) String desc,
+                                 @RequestParam(required = false) String time,
                                  @RequestParam(required = false) Integer school,@RequestParam(defaultValue = "1") Integer page,@RequestParam(defaultValue = "10")Integer limit){
         Page<Product> bannerPage = new Page<>(page,limit);
         QueryWrapper<Product> wrapper = new QueryWrapper<>();
         //搜索关键字
         wrapper.like(!StringUtils.isEmpty(key),"title",key);
         //根据价格降序
-        wrapper.orderBy(!StringUtils.isEmpty(price),StringUtils.isEmpty(desc),"price");
+        wrapper.orderBy(!StringUtils.isEmpty(price),"asc".equals(price),"price");
         //根据创建时间倒序
-        wrapper.orderBy(!StringUtils.isEmpty(time),StringUtils.isEmpty(desc),"update_time");
+        wrapper.orderBy(!StringUtils.isEmpty(time),"asc".equals(time),"update_time");
         wrapper.eq(school!=null,"school_id",school);
         IPage<Product> pages = productService.page(bannerPage,wrapper);
         return ServerResponse.ofSuccess(pages);
