@@ -37,7 +37,6 @@ public class UserController {
     }
 
     @PostMapping(value = "/login")
-
     public ServerResponse login(@RequestBody LoginRequest request) {
 
         User user = userService.login(request.getUsername(), request.getPassword());
@@ -46,6 +45,12 @@ public class UserController {
         } else {
             return ServerResponse.ofError("用户名或密码错误");
         }
+    }
+
+    @PostMapping(value = "updatepwd")
+    public ServerResponse updatePwd(@RequestBody LoginRequest request, @RequestParam(required = false) String newPwd) {
+        int result = userService.updatePwd(request.getId(), newPwd);
+        return ServerResponse.ofSuccess("密码修改成功");
     }
 }
 

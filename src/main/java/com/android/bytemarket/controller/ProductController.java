@@ -2,7 +2,6 @@ package com.android.bytemarket.controller;
 
 
 import com.android.bytemarket.common.ServerResponse;
-import com.android.bytemarket.entity.Category;
 import com.android.bytemarket.entity.Product;
 import com.android.bytemarket.service.ProductService;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
@@ -17,10 +16,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
- * <p>
  *  前端控制器
- * </p>
- *
  * @author lequal
  * @since 2019-11-30
  */
@@ -34,18 +30,25 @@ public class ProductController {
     @GetMapping("/list")
     public ServerResponse list(@RequestParam(defaultValue = "1")Integer page, @RequestParam(defaultValue = "10")Integer limit){
         Page<Product> bannerPage = new Page<>(page,limit);
-        IPage<Product> pages = productService.page(bannerPage);
+        QueryWrapper<Product> wrapper = new QueryWrapper<>();
+        wrapper.orderByAsc("update_time");
+        IPage<Product> pages = productService.page(bannerPage, wrapper);
         return ServerResponse.ofSuccess(pages);
     }
 
     @GetMapping("/search")
-    public ServerResponse search(@RequestParam(required = false) String key,@RequestParam(required = false) String price,@RequestParam(required = false) String time,@RequestParam(required = false) String desc,@RequestParam(required = false) Integer school,@RequestParam(defaultValue = "1") Integer page,@RequestParam(defaultValue = "10")Integer limit){
+    public ServerResponse search(@RequestParam(required = false) String key,@RequestParam(required = false) String price,
+                                 @RequestParam(required = false) String time,@RequestParam(required = false) String desc,
+                                 @RequestParam(required = false) Integer school,@RequestParam(defaultValue = "1") Integer page,@RequestParam(defaultValue = "10")Integer limit){
         Page<Product> bannerPage = new Page<>(page,limit);
         QueryWrapper<Product> wrapper = new QueryWrapper<>();
+        //搜索关键字
         wrapper.like(!StringUtils.isEmpty(key),"title",key);
+        //根据价格降序
         wrapper.orderBy(!StringUtils.isEmpty(price),StringUtils.isEmpty(desc),"price");
-        wrapper.orderBy(!StringUtils.isEmpty(time),StringUtils.isEmpty(desc),"time");
-        wrapper.eq(school==null,"school_id",school);
+        //根据创建时间倒序
+        wrapper.orderBy(!StringUtils.isEmpty(time),StringUtils.isEmpty(desc),"update_time");
+        wrapper.eq(school!=null,"school_id",school);
         IPage<Product> pages = productService.page(bannerPage,wrapper);
         return ServerResponse.ofSuccess(pages);
     }

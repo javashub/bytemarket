@@ -7,15 +7,11 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import java.time.LocalDateTime;
 import java.util.Date;
 
 /**
- * <p>
  *  服务实现类
- * </p>
- *
  * @author lequal
  * @since 2019-11-30
  */
@@ -54,5 +50,14 @@ public class UserServiceImpl extends ServiceImpl<UserDao, User> implements UserS
 
 //        QueryWrapper<User> wrapper = new QueryWrapper<User>().eq("nickName", nickName).eq("username", username)
 //                .eq("password", password).eq("schoolId", schoolId).eq("description", description);
+    }
+
+    @Override
+    public int updatePwd(Integer userId, String newPwd) {
+        User user = new User();
+        user.setId(userId);
+        QueryWrapper<User> wrapper = new QueryWrapper<User>().eq("id", userId).eq("password", newPwd);
+
+        return 1;
     }
 }

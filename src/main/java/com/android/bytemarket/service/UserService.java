@@ -17,4 +17,7 @@ public interface UserService extends IService<User> {
 
     //用户登录
     int register(String nickName, String username, String password, Integer schoolId, String description, Date createTime);
+
+    //修改密码
+    int updatePwd(Integer userId, String newPwd);
 }
