@@ -8,7 +8,6 @@ import com.qiniu.storage.Region;
 import com.qiniu.storage.UploadManager;
 import com.qiniu.storage.model.DefaultPutRet;
 import com.qiniu.util.Auth;
-import com.qiniu.util.StringMap;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -24,8 +23,8 @@ import java.io.UnsupportedEncodingException;
 @Component
 public class FileUpload {
 
-    static String accessKey = "";
-    static String secretKey = "";
+    static String accessKey = "eWBxsUBsqYYoVnFj9Vb_N50EOI146nnuH3yOpUq8";
+    static String secretKey = "bUUci5inrKQhLNbiN5lgTna_9nqbQqYOTHrc6HG";
     //需要上传的空间名
     static String bucket = "yoyoyo";
 
