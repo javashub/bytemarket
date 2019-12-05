@@ -23,6 +23,8 @@ public class UserServiceImpl extends ServiceImpl<UserDao, User> implements UserS
 
     @Override
     public User login(String username, String password) {
+//        QueryWrapper<User> wrapper1 = new QueryWrapper<>();
+//        userDao.selectList(wrapper1);
         QueryWrapper<User> wrapper = new QueryWrapper<User>().eq("username", username).eq("password", password);
         return userDao.selectOne(wrapper);
     }
