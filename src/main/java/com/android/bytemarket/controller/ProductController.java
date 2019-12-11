@@ -3,17 +3,24 @@ package com.android.bytemarket.controller;
 
 import com.android.bytemarket.common.ServerResponse;
 import com.android.bytemarket.entity.Product;
+import com.android.bytemarket.entity.User;
+import com.android.bytemarket.entity.response.ProductResponse;
 import com.android.bytemarket.service.ProductService;
+import com.android.bytemarket.service.UserService;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import org.apache.commons.lang3.StringUtils;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.LinkedList;
+import java.util.List;
 
 /**
  *  前端控制器
@@ -26,6 +33,8 @@ public class ProductController {
 
     @Autowired
     private ProductService productService;
+    @Autowired
+    private UserService userService;
 
     @GetMapping("/list")
     public ServerResponse list(@RequestParam(defaultValue = "1")Integer page, @RequestParam(defaultValue = "10")Integer limit,@RequestParam(required = false)Integer cid){
@@ -34,7 +43,7 @@ public class ProductController {
         wrapper.orderByDesc("update_time");
         wrapper.eq(cid!=null,"category_id",cid);
         IPage<Product> pages = productService.page(bannerPage, wrapper);
-        return ServerResponse.ofSuccess(pages);
+        return ServerResponse.ofSuccess(packageResponse(pages.getRecords()));
     }
 
     @GetMapping("/search")
@@ -51,7 +60,24 @@ public class ProductController {
         wrapper.orderBy(!StringUtils.isEmpty(time),"asc".equals(time),"update_time");
         wrapper.eq(school!=null,"school_id",school);
         IPage<Product> pages = productService.page(bannerPage,wrapper);
-        return ServerResponse.ofSuccess(pages);
+        return ServerResponse.ofSuccess(packageResponse(pages.getRecords()));
+    }
+
+    private List<ProductResponse> packageResponse(List<Product> products){
+        List<ProductResponse> list = new LinkedList<>();
+        products.forEach(v->{
+            ProductResponse productResponse = new ModelMapper().map(v,ProductResponse.class);
+            User u = userService.getById(productResponse.getUserId());
+            if (u!=null){
+                ProductResponse.User pu = new ProductResponse.User();
+                pu.setId(u.getId());
+                pu.setName(u.getNickName());
+                pu.setAvatar(u.getAvatar());
+                productResponse.setUser(pu);
+            }
+            list.add(productResponse);
+        });
+        return list;
     }
 }
 

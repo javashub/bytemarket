@@ -22,7 +22,7 @@ public class BannerController {
     public ServerResponse list(@RequestParam(defaultValue = "1")Integer page,@RequestParam(defaultValue = "10")Integer limit){
         Page<Banner> bannerPage = new Page<>(page,limit);
         IPage<Banner> pages = bannerService.page(bannerPage);
-        return ServerResponse.ofSuccess(pages);
+        return ServerResponse.ofSuccess(pages.getRecords());
     }
 
 }

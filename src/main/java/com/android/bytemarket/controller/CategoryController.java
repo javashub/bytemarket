@@ -34,7 +34,7 @@ public class CategoryController {
     public ServerResponse list(@RequestParam(defaultValue = "1")Integer page, @RequestParam(defaultValue = "10")Integer limit){
         Page<Category> bannerPage = new Page<>(page,limit);
         IPage<Category> pages = categoryService.page(bannerPage);
-        return ServerResponse.ofSuccess(pages);
+        return ServerResponse.ofSuccess(pages.getRecords());
     }
 }
 
