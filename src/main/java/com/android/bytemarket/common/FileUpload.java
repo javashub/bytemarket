@@ -14,6 +14,8 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
+import java.util.LinkedList;
+import java.util.List;
 
 /**
  * @author: 15760
@@ -23,10 +25,10 @@ import java.io.UnsupportedEncodingException;
 @Component
 public class FileUpload {
 
-    static String accessKey = "eWBxsUBsqYYoVnFj9Vb_N50EOI146nnuH3yOpUq8";
-    static String secretKey = "bUUci5inrKQhLNbiN5lgTna_9nqbQqYOTHrc6HG";
+    static String accessKey = "6sLzFMI1OuMEabWiej9QZ7p1NRK0OYR5tv808xVn";
+    static String secretKey = "lmr9I8cQVlPEL8YVFNFkPVqCnkOZ--CHWBNxvj9X";
     //需要上传的空间名
-    static String bucket = "yoyoyo";
+    static String bucket = "lequal";
 
     static String key = null;
 
@@ -40,6 +42,7 @@ public class FileUpload {
      * @return
      */
     public static String upLoad(MultipartFile file) throws IOException {
+        DefaultPutRet putRet = null;
         try {
             byte[] uploadBytes = file.getBytes();
             ByteArrayInputStream byteInputStream=new ByteArrayInputStream(uploadBytes);
@@ -48,7 +51,7 @@ public class FileUpload {
             try {
                 Response response = uploadManager.put(byteInputStream,key,upToken,null, null);
                 //解析上传成功的结果
-                DefaultPutRet putRet = new Gson().fromJson(response.bodyString(), DefaultPutRet.class);
+                putRet = new Gson().fromJson(response.bodyString(), DefaultPutRet.class);
                 System.out.println(putRet.key);
                 System.out.println(putRet.hash);
             } catch (QiniuException ex) {
@@ -63,6 +66,19 @@ public class FileUpload {
         } catch (UnsupportedEncodingException ex) {
             //ignore
         }
-        return "";
+        return String.format("http://q2caan54b.bkt.clouddn.com/%s",putRet==null?"":putRet.hash);
     }
+
+    public static String[] upLoads(MultipartFile[] files) throws IOException {
+        if (files.length < 1){
+            return null;
+        }
+        List<String> list = new LinkedList<>();
+        for (MultipartFile file : files) {
+            String url = upLoad(file);
+            list.add(url);
+        }
+        return list.toArray(new String[files.length]);
+    }
+
 }

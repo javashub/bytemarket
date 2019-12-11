@@ -2,6 +2,7 @@ package com.android.bytemarket.controller;
 
 import com.android.bytemarket.common.FileUpload;
 import com.android.bytemarket.common.ServerResponse;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -18,9 +19,15 @@ import java.io.IOException;
 @RequestMapping("/upload")
 public class UploadController {
 
-    @PostMapping("/file")
+    @PostMapping("/images")
+    public ServerResponse uploads(MultipartFile[] file) throws IOException {
+        String[] url = FileUpload.upLoads(file);
+        return ServerResponse.ofSuccess(StringUtils.join(url, ","));
+    }
+
+    @PostMapping("/image")
     public ServerResponse upload(MultipartFile file) throws IOException {
-        String s = FileUpload.upLoad(file);
-        return ServerResponse.ofSuccess(s);
+        String url = FileUpload.upLoad(file);
+        return ServerResponse.ofSuccess(url);
     }
 }
