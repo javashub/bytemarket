@@ -6,6 +6,10 @@ spring:
     url: jdbc:mysql://134.175.118.250:3306/byte_market
     username: root
     password: 123456
+  servlet:
+    multipart:
+      max-file-size: 200MB
+      max-request-size: 200MB
 
 mybatis-plus:
   mapper-locations: classpath:/mapper/xml/*Mapper.xml
