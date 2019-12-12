@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>商品详情</title>
+    <script src="https://cdn.bootcss.com/jquery/3.4.1/jquery.min.js"></script>
+    <style>
+        .productclass{
+            width: 100%;
+            height: 100%;
+            margin-bottom: 5px;
+            border-radius: 4px;
+        }
+    </style>
+</head>
+
+<body>
+<div style="padding: 10px;">
+    <div style="display: inline-block; width: 30px; height: 30px"><img src="" alt="图片加载失败" id = "avatar" style="width: 25px; height: 25px"/></div>
+    <p style="display: inline-block; height: 20px; margin: 0;font-size: 10px;" id = "username"></p><hr>
+
+    <p id = "price" style="color: red;" ></p>
+    <p id = "title"></p>
+    <p id = "description"></p>
+
+    <div id = "productImg">
+    </div>
+</div>
+
+</body>
+</html>
+
+<script>
+    $(function () {
+
+        var id = [[${id}]];
+        $.ajax({
+            type:"get",
+            url:"http://134.175.118.250:8080/product/" + id,
+            dataType:"json",
+            success:function(data) {
+
+                var images = new Array();
+                var imgStr = data.data.images;
+
+                // 商品发布者头像
+                $("#avatar").prop("src", data.data.user.avatar);
+
+                // 商品发布者名
+                console.log($("#username").append(data.data.user.name));
+
+                //$("#username").append(data.data.user.username);
+
+                // 商品价格
+                $("#price").append("￥").append(data.data.price);
+
+                // 商品标题
+                $("#title").append(data.data.title);
+
+                // 商品描述
+                // $("#productDescription").prop(data.data.description);
+                $("#description").append(data.data.description);
+
+                // 获取每一张商品图片的地址
+                var str = imgStr.split(",");
+
+
+                // 循环显示商品图片
+                for(var i = 0; i < str.length; i ++) {
+                    $("#productImg").append($("<img class = 'productclass' src=/>").prop("src",str[i]));
+                }
+            }
+        });
+    });
+</script>
+
+
