@@ -13,6 +13,8 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import org.apache.commons.lang3.StringUtils;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.LinkedList;
@@ -23,7 +25,7 @@ import java.util.List;
  * @author lequal
  * @since 2019-11-30
  */
-@RestController
+@Controller
 @RequestMapping("/product")
 public class ProductController {
 
@@ -32,11 +34,29 @@ public class ProductController {
     @Autowired
     private UserService userService;
 
+    /**
+     *
+     * @param id
+     * @return
+     */
     @GetMapping("/{id}")
+    @ResponseBody
     public ServerResponse get(@PathVariable("id") Integer id){
         Product product = productService.getById(id);
         ProductResponse productResponse = getProductResponse(product);
         return ServerResponse.ofSuccess(productResponse);
+    }
+
+    /**
+     * 商品详情页面
+     * @param id
+     * @param model
+     * @return
+     */
+    @GetMapping("/html/{id}")
+    public String getHtml(@PathVariable("id") Integer id, Model model){
+        model.addAttribute("id",id);
+        return "detail";
     }
 
     private ProductResponse getProductResponse(Product product) {
@@ -53,6 +73,7 @@ public class ProductController {
     }
 
     @GetMapping("/list")
+    @ResponseBody
     public ServerResponse list(@RequestParam(defaultValue = "1")Integer page, @RequestParam(defaultValue = "10")Integer limit,@RequestParam(required = false)Integer cid){
         Page<Product> bannerPage = new Page<>(page,limit);
         QueryWrapper<Product> wrapper = new QueryWrapper<>();
@@ -63,6 +84,7 @@ public class ProductController {
     }
 
     @GetMapping("/search")
+    @ResponseBody
     public ServerResponse search(@RequestParam(required = false) String key,@RequestParam(required = false) String price,
                                  @RequestParam(required = false) String time,
                                  @RequestParam(required = false) Integer school,@RequestParam(defaultValue = "1") Integer page,@RequestParam(defaultValue = "10")Integer limit){

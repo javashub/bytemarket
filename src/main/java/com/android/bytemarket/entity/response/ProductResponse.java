@@ -43,6 +43,4 @@ public class ProductResponse extends Product {
             this.avatar = avatar;
         }
     }
-
-
 }
