@@ -41,6 +41,7 @@ public class UserController {
 
         User user = userService.login(request.getUsername(), request.getPassword());
         if (user!= null) {
+            user.setPassword("");
             return ServerResponse.ofSuccess("登录成功", user);
         } else {
             return ServerResponse.ofError("用户名或密码错误");

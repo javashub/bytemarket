@@ -13,13 +13,40 @@
             margin-bottom: 5px;
             border-radius: 4px;
         }
+        .name{
+            height: 30px;
+            color: #615f5f;
+            vertical-align: middle;
+            display: inline-block;
+            margin: -12px 0 0 0 ;
+            font-size: 16px;
+        }
+        #price{
+            font-size: 22px;
+            margin-bottom: 15px;
+            margin-top: 25px;
+        }
+        #title{
+            font-size: 18px;
+            margin: 0px;
+        }
+        #description{
+            margin-top:10px;
+        }
+        #hr{
+            margin: 3px 0 0 0;
+        }
     </style>
 </head>
 
 <body>
-<div style="padding: 10px;">
-    <div style="display: inline-block; width: 30px; height: 30px"><img src="" alt="图片加载失败" id = "avatar" style="width: 25px; height: 25px"/></div>
-    <p style="display: inline-block; height: 20px; margin: 0;font-size: 10px;" id = "username"></p><hr>
+<div style="padding: 5px;">
+    <div style="height: 28px;">
+        <div style="display: inline-block; width: 28px; height: 28px;margin:0px 5px 0 5px;">
+            <img src="" alt="" id = "avatar" style="width: 28px; height: 28px;border-radius: 20px;"/>
+        </div>
+        <div class="name" id = "username"></div><hr id="hr">
+    </div>
 
     <p id = "price" style="color: red;" ></p>
     <p id = "title"></p>
@@ -42,7 +69,6 @@
             dataType:"json",
             success:function(data) {
 
-                var images = new Array();
                 var imgStr = data.data.images;
 
                 // 商品发布者头像

@@ -109,5 +109,15 @@ public class ProductController {
         });
         return list;
     }
+
+    @PostMapping("/")
+    @ResponseBody
+    public ServerResponse insert(@RequestBody Product product){
+        boolean b = productService.saveOrUpdate(product);
+        if (b){
+            return ServerResponse.ofSuccess("操作成功");
+        }
+        return ServerResponse.ofError("操作失败");
+    }
 }
 
