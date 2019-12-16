@@ -115,9 +115,9 @@ public class ProductController {
     public ServerResponse insert(@RequestBody Product product){
         boolean b = productService.saveOrUpdate(product);
         if (b){
-            return ServerResponse.ofSuccess("操作成功");
+            return ServerResponse.ofSuccess("操作成功",getProductResponse(product));
         }
-        return ServerResponse.ofError("操作失败");
+        return ServerResponse.ofError("操作失败",null);
     }
 }
 
