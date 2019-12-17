@@ -33,4 +33,16 @@ public class AddressController {
             return ServerResponse.ofError();
         }
     }
+
+    @DeleteMapping("/{id}")
+    public ServerResponse delete(@PathVariable("id") Integer id){
+        //无校验
+        boolean b = addressService.removeById(id);
+        if (b) {
+            return ServerResponse.ofSuccess("删除成功");
+        }
+        else {
+            return ServerResponse.ofError("删除失败");
+        }
+    }
 }
