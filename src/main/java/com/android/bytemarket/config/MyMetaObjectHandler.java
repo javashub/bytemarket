@@ -11,14 +11,14 @@ import java.time.LocalDateTime;
 public class MyMetaObjectHandler implements MetaObjectHandler {
     @Override
     public void insertFill(MetaObject metaObject) {
-        if (metaObject.hasSetter("createTime")&&getFieldValByName("createTime",metaObject)!=null) {
+        if (metaObject.hasSetter("createTime")&&getFieldValByName("createTime",metaObject)==null) {
             setInsertFieldValByName("createTime", LocalDateTime.now(), metaObject);
         }
     }
 
     @Override
     public void updateFill(MetaObject metaObject) {
-        if (metaObject.hasSetter("updateTime")&&getFieldValByName("updateTime",metaObject)!=null) {
+        if (metaObject.hasSetter("updateTime")&&getFieldValByName("updateTime",metaObject)==null) {
             setUpdateFieldValByName("updateTime", LocalDateTime.now(), metaObject);
         }
     }
