@@ -7,9 +7,6 @@ import java.time.LocalDateTime;
 import java.io.Serializable;
 
 /**
- * <p>
- * 
- * </p>
  *
  * @author lequal
  * @since 2019-11-30
@@ -46,11 +43,11 @@ public class Store extends Model<Store> {
     @TableField(fill = FieldFill.UPDATE)
     private LocalDateTime updateTime;
 
-    /**
-     * 0表示可以查询，1表示屏蔽查询
-     */
-    @TableLogic
-    private Integer deleted;
+//    /**
+//     * 0表示可以查询，1表示屏蔽查询
+//     */
+//    @TableLogic
+//    private Integer deleted;
 
 
     public Integer getId() {
@@ -101,13 +98,6 @@ public class Store extends Model<Store> {
         this.updateTime = updateTime;
     }
 
-    public Integer getDeleted() {
-        return deleted;
-    }
-
-    public void setDeleted(Integer deleted) {
-        this.deleted = deleted;
-    }
 
     @Override
     protected Serializable pkVal() {
@@ -123,7 +113,6 @@ public class Store extends Model<Store> {
         ", type=" + type +
         ", createTime=" + createTime +
         ", updateTime=" + updateTime +
-        ", deleted=" + deleted +
         "}";
     }
 }

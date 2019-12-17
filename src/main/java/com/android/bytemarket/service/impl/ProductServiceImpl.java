@@ -29,7 +29,7 @@ public class ProductServiceImpl extends ServiceImpl<ProductDao, Product> impleme
 
     @Override
     public List<Product> searchProduct(String keyword) {
-        //根据关键字查询商品
+        // 根据关键字模糊查询商品
         QueryWrapper<Product> wrapper = new QueryWrapper<Product>().like("title", keyword);
         return produtDao.selectList(wrapper);
     }

@@ -1,6 +1,7 @@
 package com.android.bytemarket.service.impl;
 
 
+import com.android.bytemarket.dao.CartDao;
 import com.android.bytemarket.dao.ProdutDao;
 import com.android.bytemarket.dao.UserDao;
 import com.android.bytemarket.entity.Product;
@@ -28,6 +29,8 @@ public class UserServiceImpl extends ServiceImpl<UserDao, User> implements UserS
     UserDao userDao;
     @Autowired
     ProdutDao produtDao;
+    @Autowired
+    CartDao cartDao;
 
     /**
      * 登录
@@ -160,7 +163,8 @@ public class UserServiceImpl extends ServiceImpl<UserDao, User> implements UserS
         int mySolds = sold.size();
 
         // 购物车
-
+//        QueryWrapper<Cart<Product>> wrapper3 = new QueryWrapper<Cart<Product>>().eq("user_id", userId);
+//        List<Product> cart = cartDao.selectList(wrapper3);
 
         return null;
     }

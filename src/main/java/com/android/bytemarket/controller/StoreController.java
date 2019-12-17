@@ -15,18 +15,12 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-
-import org.springframework.stereotype.Controller;
-
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
 /**
- * <p>
  *  前端控制器
- * </p>
- *
  * @author lequal
  * @since 2019-11-30
  */
@@ -67,7 +61,7 @@ public class StoreController {
     /**
      * 根据id获取用户收藏
      */
-    @GetMapping("/collect/")
+    @GetMapping("/collect")
     public ServerResponse listCollect(Integer uid){
         List<Store> list = storeService.list(new QueryWrapper<Store>().eq("user_id", uid).eq("type", StoreEnum.COLLECT.getCode()).orderByDesc("create_time"));
         return getStoreList(list);
@@ -76,7 +70,7 @@ public class StoreController {
     /**
      * 根据id获取用户收藏
      */
-    @GetMapping("/collect/")
+    @GetMapping("/history")
     public ServerResponse listHistory(Integer uid){
         List<Store> list = storeService.list(new QueryWrapper<Store>().eq("user_id", uid).eq("type", StoreEnum.HISTORY.getCode()).orderByDesc("create_time"));
         return getStoreList(list);

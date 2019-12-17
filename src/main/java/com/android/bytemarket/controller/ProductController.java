@@ -18,7 +18,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.LinkedList;
 import java.util.List;
 
@@ -39,6 +38,7 @@ public class ProductController {
     private OrderService orderService;
 
     /**
+     * 根据id查找商品
      * @param id
      * @return
      */
@@ -51,7 +51,7 @@ public class ProductController {
     }
 
     /**
-     * 商品详情页面
+     * 商品详情页面，返回并渲染前端页面：detail.html
      * @param id
      * @param model
      * @return
@@ -62,6 +62,11 @@ public class ProductController {
         return "detail";
     }
 
+    /**
+     *
+     * @param product
+     * @return
+     */
     private ProductResponse getProductResponse(Product product) {
         ProductResponse productResponse = new ModelMapper().map(product, ProductResponse.class);
         User u = userService.getById(productResponse.getUserId());
@@ -75,9 +80,17 @@ public class ProductController {
         return productResponse;
     }
 
+    /**
+     * 分类显示
+     * @param page
+     * @param limit
+     * @param cid
+     * @return
+     */
     @GetMapping("/list")
     @ResponseBody
-    public ServerResponse list(@RequestParam(defaultValue = "1")Integer page, @RequestParam(defaultValue = "10")Integer limit,@RequestParam(required = false)Integer cid){
+    public ServerResponse list(@RequestParam(defaultValue = "1")Integer page, @RequestParam(defaultValue = "10")Integer limit,
+                               @RequestParam(required = false)Integer cid){
         Page<Product> bannerPage = new Page<>(page,limit);
         QueryWrapper<Product> wrapper = new QueryWrapper<>();
         wrapper.orderByDesc("update_time");
@@ -86,11 +99,22 @@ public class ProductController {
         return ServerResponse.ofSuccess(packageResponse(pages.getRecords()));
     }
 
+    /**
+     * 搜索商品
+     * @param key
+     * @param price
+     * @param time
+     * @param school
+     * @param page
+     * @param limit
+     * @return
+     */
     @GetMapping("/search")
     @ResponseBody
     public ServerResponse search(@RequestParam(required = false) String key,@RequestParam(required = false) String price,
-                                 @RequestParam(required = false) String time,
-                                 @RequestParam(required = false) Integer school,@RequestParam(defaultValue = "1") Integer page,@RequestParam(defaultValue = "10")Integer limit){
+                                 @RequestParam(required = false) String time, @RequestParam(required = false) Integer school,
+                                 @RequestParam(defaultValue = "1") Integer page, @RequestParam(defaultValue = "10")Integer limit){
+
         Page<Product> bannerPage = new Page<>(page,limit);
         QueryWrapper<Product> wrapper = new QueryWrapper<>();
         //搜索关键字
@@ -113,6 +137,11 @@ public class ProductController {
         return list;
     }
 
+    /**
+     * 发布商品
+     * @param product
+     * @return
+     */
     @PostMapping("/")
     @ResponseBody
     public ServerResponse insert(@RequestBody Product product){
@@ -123,7 +152,11 @@ public class ProductController {
         return ServerResponse.ofError("操作失败",null);
     }
 
-    // 创建订单
+    /**
+     * 创建订单
+     * @param order
+     * @return
+     */
     @PostMapping("/createorder")
     @ResponseBody
     public ServerResponse createOrder(@RequestBody Order order) {

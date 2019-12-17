@@ -3,8 +3,6 @@ package com.android.bytemarket.config;
 import com.baomidou.mybatisplus.core.handlers.MetaObjectHandler;
 import org.apache.ibatis.reflection.MetaObject;
 import org.springframework.context.annotation.Configuration;
-
-
 import java.time.LocalDateTime;
 
 @Configuration
@@ -13,6 +11,7 @@ public class MyMetaObjectHandler implements MetaObjectHandler {
     public void insertFill(MetaObject metaObject) {
         if (metaObject.hasSetter("createTime")&&getFieldValByName("createTime",metaObject)==null) {
             setInsertFieldValByName("createTime", LocalDateTime.now(), metaObject);
+            //setInsertFieldValByName("updateTime", LocalDateTime.now(), metaObject);
         }
     }
 

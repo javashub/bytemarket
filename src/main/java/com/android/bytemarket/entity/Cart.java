@@ -1,6 +1,9 @@
 package com.android.bytemarket.entity;
 
+import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
+
+import java.math.BigDecimal;
 
 /**
  * @author: 15760
@@ -8,7 +11,8 @@ import lombok.Data;
  * @Descripe: 购物车
  */
 @Data
-public class Cart {
+@TableName("tb_cart")
+public class Cart<T> {
 
     private Integer id;
 
@@ -21,5 +25,13 @@ public class Cart {
     // 发布者id
     private Integer sellerId;
 
+    // 商品数量
+    private Integer num;
+
+    // 商品单价
+    private BigDecimal price;
+
+    // 商品总价
+    private BigDecimal totalPrice;
 
 }
