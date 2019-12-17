@@ -2,7 +2,7 @@ package com.android.bytemarket.entity.request;
 
 import lombok.Data;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 
 /**
  * @author: 15760
@@ -22,8 +22,11 @@ public class RegisterRequest {
 
     private String description;
 
-    private String avatar;//头像的地址
+    // 头像的地址
+    private String avatar;
 
-    private Date createTime;
+    private LocalDateTime createTime;
+
+    private LocalDateTime updateTime;
 
 }

@@ -2,9 +2,11 @@ package com.android.bytemarket.controller;
 
 
 import com.android.bytemarket.common.ServerResponse;
+import com.android.bytemarket.entity.Order;
 import com.android.bytemarket.entity.Product;
 import com.android.bytemarket.entity.User;
 import com.android.bytemarket.entity.response.ProductResponse;
+import com.android.bytemarket.service.OrderService;
 import com.android.bytemarket.service.ProductService;
 import com.android.bytemarket.service.UserService;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
@@ -33,9 +35,10 @@ public class ProductController {
     private ProductService productService;
     @Autowired
     private UserService userService;
+    @Autowired
+    private OrderService orderService;
 
     /**
-     *
      * @param id
      * @return
      */
@@ -118,6 +121,23 @@ public class ProductController {
             return ServerResponse.ofSuccess("操作成功",getProductResponse(product));
         }
         return ServerResponse.ofError("操作失败",null);
+    }
+
+    // 创建订单
+    @PostMapping("/createorder")
+    @ResponseBody
+    public ServerResponse createOrder(@RequestBody Order order) {
+
+        // 此处回执单号需要另外处理
+        int result = orderService.createOrder(order.getUserId(), order.getProductId(), order.getTotalMoney(),
+                order.getRemarks(), order.getPayFrom(), order.getUserAddress(), order.getUserName(), order.getUserPhone(),
+                order.getTradeNo());
+
+        if (result > 0) {
+            return ServerResponse.ofSuccess("下单成功！");
+        } else {
+            return ServerResponse.ofError("下单失败！");
+        }
     }
 }
 

@@ -6,14 +6,14 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+/**
+ * 状态码 消息 数据
+ */
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 public class ServerResponse {
 
-    /**
-     * 状态码 消息 数据
-     */
     private  int code;
     private String msg;
     private  Object data;

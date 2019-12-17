@@ -1,3 +1,4 @@
+#读取配置文件application-dev.yml
 spring:
   profiles:
     active: dev

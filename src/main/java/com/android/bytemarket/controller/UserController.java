@@ -21,11 +21,16 @@ public class UserController {
     @Autowired
     private UserService userService;
 
-    @PostMapping(value = "/register")
+    /**
+     * 用户注册
+     * @param request
+     * @return
+     */
+    @PostMapping("/register")
     public ServerResponse register(@RequestBody RegisterRequest request) {
 
-        int result = userService.register(request.getNickName(),request.getUsername(),request.getPassword(),
-                request.getSchoolId(),request.getDescription(),request.getCreateTime());
+        int result = userService.register(request.getNickName(), request.getUsername(), request.getPassword(),
+                request.getAvatar(), request.getDescription(), request.getSchoolId());
 
         if (result > 0) {
             return ServerResponse.ofSuccess("注册成功，请登录");
@@ -36,11 +41,16 @@ public class UserController {
         }
     }
 
-    @PostMapping(value = "/login")
+    /**
+     * 用户登录
+     * @param request
+     * @return
+     */
+    @PostMapping("/login")
     public ServerResponse login(@RequestBody LoginRequest request) {
 
         User user = userService.login(request.getUsername(), request.getPassword());
-        if (user!= null) {
+        if (user != null) {
             user.setPassword("");
             return ServerResponse.ofSuccess("登录成功", user);
         } else {
@@ -48,10 +58,20 @@ public class UserController {
         }
     }
 
-    @PostMapping(value = "updatepwd")
-    public ServerResponse updatePwd(@RequestBody LoginRequest request, @RequestParam(required = false) String newPwd) {
-        int result = userService.updatePwd(request.getId(), newPwd);
-        return ServerResponse.ofSuccess("密码修改成功");
+    /**
+     * 修改密码
+     * @param request
+     * @param newPwd
+     * @return
+     */
+    @PostMapping("/updatepwd")
+    public ServerResponse updatePwd(@RequestBody LoginRequest request,@RequestParam String oldPwd , @RequestParam(required = false) String newPwd) {
+        int result = userService.updatePwd(request.getId(), oldPwd, newPwd);
+        if (result > 0) {
+            return ServerResponse.ofSuccess("密码修改成功！");
+        } else {
+            return ServerResponse.ofError("密码修改失败！");
+        }
     }
 }
 
