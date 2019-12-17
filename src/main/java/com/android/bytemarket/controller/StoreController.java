@@ -37,15 +37,35 @@ public class StoreController {
     @Autowired
     private StoreService storeService;
 
+    @DeleteMapping("/{id}")
+    public ServerResponse delete(@PathVariable("id") Integer id){
+        //无校验
+        boolean b = storeService.removeById(id);
+        if (b) {
+            return ServerResponse.ofSuccess("删除成功");
+        }
+        else {
+            return ServerResponse.ofError("删除失败");
+        }
+    }
+
     @PostMapping("/collect")
     public ServerResponse collect(@RequestBody Store store){
         store.setType(StoreEnum.COLLECT.getCode());
+        int count = storeService.count(new QueryWrapper<Store>().eq("user_id", store.getUserId()).eq("product_id", store.getProductId()).eq("type",StoreEnum.COLLECT.getCode()));
+        if (count>0){
+            return ServerResponse.ofError("您已经收藏过了");
+        }
         return saveStore(store);
     }
 
     @PostMapping("/history")
     public ServerResponse history(@RequestBody Store store){
         store.setType(StoreEnum.HISTORY.getCode());
+        Store one = storeService.getOne(new QueryWrapper<Store>().eq("user_id", store.getUserId()).eq("product_id", store.getProductId()).eq("type",StoreEnum.HISTORY.getCode()));
+        if(one!=null){
+            return saveStore(one);
+        }
         return saveStore(store);
     }
 
