@@ -20,21 +20,21 @@ import java.util.List;
 /**
  * @author: 15760
  * @Date: 2019/12/1
- * @Descripe:
+ * @Descripe: 将文件上传到七牛云存储上
  */
 @Component
 public class FileUpload {
 
     static String accessKey = "6sLzFMI1OuMEabWiej9QZ7p1NRK0OYR5tv808xVn";
     static String secretKey = "lmr9I8cQVlPEL8YVFNFkPVqCnkOZ--CHWBNxvj9X";
-    //需要上传的空间名
+    // 需要上传的空间名
     static String bucket = "lequal";
 
     static String key = null;
 
-    //密钥配置
+    // 密钥配置
     //static Auth auth = Auth.create(accessKey, secretKey);
-    //创建上传对象
+    // 创建上传对象
     static UploadManager uploadManager = new UploadManager(new Configuration(Region.autoRegion()));
 
     /**
@@ -50,7 +50,7 @@ public class FileUpload {
             String upToken = auth.uploadToken(bucket);
             try {
                 Response response = uploadManager.put(byteInputStream,key,upToken,null, null);
-                //解析上传成功的结果
+                // 解析上传成功的结果
                 putRet = new Gson().fromJson(response.bodyString(), DefaultPutRet.class);
                 System.out.println(putRet.key);
                 System.out.println(putRet.hash);
@@ -60,11 +60,11 @@ public class FileUpload {
                 try {
                     System.err.println(r.bodyString());
                 } catch (QiniuException ex2) {
-                    //ignore
+                    // ignore
                 }
             }
         } catch (UnsupportedEncodingException ex) {
-            //ignore
+            // ignore
         }
         return String.format("http://q2caan54b.bkt.clouddn.com/%s",putRet==null?"":putRet.hash);
     }
@@ -80,5 +80,4 @@ public class FileUpload {
         }
         return list.toArray(new String[files.length]);
     }
-
 }

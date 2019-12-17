@@ -20,4 +20,6 @@ public interface ProductService extends IService<Product> {
 
     //用户搜索商品
     List<Product> searchProduct(String keyword);
+
+
 }

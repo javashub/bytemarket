@@ -3,7 +3,9 @@ package com.android.bytemarket.service;
 import com.android.bytemarket.entity.User;
 import com.baomidou.mybatisplus.extension.service.IService;
 
-import java.util.Date;
+import java.util.List;
+import java.util.Map;
+
 
 /**
  *  服务类
@@ -12,12 +14,19 @@ import java.util.Date;
  */
 public interface UserService extends IService<User> {
 
-    //用户注册
+    // 用户登录
     User login(String username,String password);
 
-    //用户登录
-    int register(String nickName, String username, String password, Integer schoolId, String description, Date createTime);
+    // 用户注册
+    int register(String nickName, String username, String password, String avatar, String description, Integer schoolId);
 
-    //修改密码
-    int updatePwd(Integer userId, String newPwd);
+    // 修改密码
+    int updatePwd(Integer userId, String oldPwd, String newPwd);
+
+    // 显示用户主页信息
+    Map<String, Object> showMain(Integer userId);
+
+    // 用户个人中心数据显示
+    List userCenter(Integer userId);
+
 }

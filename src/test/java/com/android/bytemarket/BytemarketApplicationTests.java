@@ -1,5 +1,6 @@
 package com.android.bytemarket;
 
+import com.android.bytemarket.common.OrderUtils;
 import com.android.bytemarket.dao.ProdutDao;
 import com.android.bytemarket.dao.UserDao;
 import com.android.bytemarket.entity.Product;
@@ -36,5 +37,12 @@ class BytemarketApplicationTests {
         for (Product product : products) {
             System.out.println(product);
         }
+    }
+
+    @Test
+    public void testOrder() {
+        System.out.println("测试一下。。。。");
+        System.out.println(OrderUtils.createNo());
+        System.out.println(OrderUtils.createNo().length());
     }
 }
