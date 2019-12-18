@@ -162,9 +162,6 @@ public class UserServiceImpl extends ServiceImpl<UserDao, User> implements UserS
         // 数量
         int mySolds = sold.size();
 
-        // 购物车
-//        QueryWrapper<Cart<Product>> wrapper3 = new QueryWrapper<Cart<Product>>().eq("user_id", userId);
-//        List<Product> cart = cartDao.selectList(wrapper3);
 
         return null;
     }

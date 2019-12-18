@@ -37,12 +37,22 @@ public class StoreController {
     @Autowired
     private StoreService storeService;
 
+    /**
+     * 收藏商品
+     * @param store
+     * @return
+     */
     @PostMapping("/collect")
     public ServerResponse collect(@RequestBody Store store){
         store.setType(StoreEnum.COLLECT.getCode());
         return saveStore(store);
     }
 
+    /**
+     * 显示历史记录
+     * @param store
+     * @return
+     */
     @PostMapping("/history")
     public ServerResponse history(@RequestBody Store store){
         store.setType(StoreEnum.HISTORY.getCode());

@@ -7,6 +7,8 @@ import java.time.LocalDateTime;
 
 @Configuration
 public class MyMetaObjectHandler implements MetaObjectHandler {
+
+    // 自动插入公共字段
     @Override
     public void insertFill(MetaObject metaObject) {
         if (metaObject.hasSetter("createTime")&&getFieldValByName("createTime",metaObject)==null) {
@@ -15,6 +17,7 @@ public class MyMetaObjectHandler implements MetaObjectHandler {
         }
     }
 
+    // 自动更新公共字段
     @Override
     public void updateFill(MetaObject metaObject) {
         if (metaObject.hasSetter("updateTime")&&getFieldValByName("updateTime",metaObject)==null) {
