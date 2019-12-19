@@ -5,6 +5,7 @@ import com.android.bytemarket.common.ServerResponse;
 import com.android.bytemarket.entity.User;
 import com.android.bytemarket.entity.request.LoginRequest;
 import com.android.bytemarket.entity.request.RegisterRequest;
+import com.android.bytemarket.entity.request.UpdateRequest;
 import com.android.bytemarket.service.UserService;
 import com.baomidou.mybatisplus.core.conditions.Wrapper;
 import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
@@ -15,6 +16,7 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 import org.apache.commons.lang3.StringUtils;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -83,6 +85,19 @@ public class UserController {
             return ServerResponse.ofError("用户名或密码错误");
         }
 
+    }
+
+    @PostMapping("/update")
+    public ServerResponse update(@RequestBody UpdateRequest request) {
+        ModelMapper modelMapper = new ModelMapper();
+        User user = modelMapper.map(request,User.class);
+        boolean b = userService.saveOrUpdate(user);
+        if (b){
+            User u = userService.getById(user.getId());
+            u.setPassword("");
+            return ServerResponse.ofSuccess("修改成功",u);
+        }
+        return ServerResponse.ofError("修改失败");
     }
 
     /**
@@ -164,5 +179,6 @@ public class UserController {
 
         private String token;
     }
+
 }
 
