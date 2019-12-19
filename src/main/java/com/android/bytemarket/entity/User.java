@@ -64,6 +64,7 @@ public class User extends Model<User> {
      */
     private String description;
 
+    private String rongCloudToken;
 
     @Override
     protected Serializable pkVal() {
