@@ -18,31 +18,31 @@ import java.util.List;
 @RunWith(SpringRunner.class)
 class BytemarketApplicationTests {
 
-    @Autowired
-    private UserDao userDao;
-    @Autowired
-    private ProdutDao produtDao;
-
-    @Test
-    void contextLoads() {
-        List<User> list = userDao.selectList(null);
-        for (User user: list) {
-            System.out.println(user);
-        }
-    }
-
-    @Test
-    public void testProduct() {
-        List<Product> products = produtDao.selectList(null);
-        for (Product product : products) {
-            System.out.println(product);
-        }
-    }
-
-    @Test
-    public void testOrder() {
-        System.out.println("测试一下。。。。");
-        System.out.println(OrderUtils.createNo());
-        System.out.println(OrderUtils.createNo().length());
-    }
+//    @Autowired
+//    private UserDao userDao;
+//    @Autowired
+//    private ProdutDao produtDao;
+//
+//    @Test
+//    void contextLoads() {
+//        List<User> list = userDao.selectList(null);
+//        for (User user: list) {
+//            System.out.println(user);
+//        }
+//    }
+//
+//    @Test
+//    public void testProduct() {
+//        List<Product> products = produtDao.selectList(null);
+//        for (Product product : products) {
+//            System.out.println(product);
+//        }
+//    }
+//
+//    @Test
+//    public void testOrder() {
+//        System.out.println("测试一下。。。。");
+//        System.out.println(OrderUtils.createNo());
+//        System.out.println(OrderUtils.createNo().length());
+//    }
 }

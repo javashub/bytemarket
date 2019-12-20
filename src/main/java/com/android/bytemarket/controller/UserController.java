@@ -2,10 +2,12 @@ package com.android.bytemarket.controller;
 
 import com.android.bytemarket.common.CodeUtil;
 import com.android.bytemarket.common.ServerResponse;
+import com.android.bytemarket.entity.School;
 import com.android.bytemarket.entity.User;
 import com.android.bytemarket.entity.request.LoginRequest;
 import com.android.bytemarket.entity.request.RegisterRequest;
 import com.android.bytemarket.entity.request.UpdateRequest;
+import com.android.bytemarket.service.SchoolService;
 import com.android.bytemarket.service.UserService;
 import com.baomidou.mybatisplus.core.conditions.Wrapper;
 import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
@@ -37,6 +39,8 @@ public class UserController {
 
     @Autowired
     private UserService userService;
+    @Autowired
+    private SchoolService schoolService;
 
     /**
      * 用户注册
@@ -80,6 +84,13 @@ public class UserController {
                 }
             }
             user.setPassword("");
+            // 优化
+            School school = schoolService.getById(user.getSchoolId());
+            if (school!=null){
+                user.setSchoolName(school.getName());
+            }else {
+                user.setSchoolName("");
+            }
             return ServerResponse.ofSuccess("登录成功", user);
         } else {
             return ServerResponse.ofError("用户名或密码错误");
@@ -95,6 +106,13 @@ public class UserController {
         if (b){
             User u = userService.getById(user.getId());
             u.setPassword("");
+            // 优化
+            School school = schoolService.getById(u.getSchoolId());
+            if (school!=null){
+                u.setSchoolName(school.getName());
+            }else {
+                u.setSchoolName("");
+            }
             return ServerResponse.ofSuccess("修改成功",u);
         }
         return ServerResponse.ofError("修改失败");
@@ -123,6 +141,7 @@ public class UserController {
         if (user!=null){
             map.put("name",user.getNickName());
             map.put("avatar",user.getAvatar());
+            map.put("school",user.getSchoolName());
         }
         return ServerResponse.ofSuccess(map);
     }

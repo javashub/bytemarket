@@ -1,5 +1,7 @@
 package com.android.bytemarket.entity;
 
+import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -16,12 +18,13 @@ import java.time.LocalDateTime;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@TableName("tb_ordre")
+@TableName("tb_order")
 //@DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
 //@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
 public class Order {
 
     // 订单id
+    @TableId(value = "id", type = IdType.AUTO)
     private Integer id;
 
     // 订单号码

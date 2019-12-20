@@ -18,8 +18,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+
+import java.time.LocalDateTime;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 
 /**
  *  前端控制器
@@ -94,6 +98,7 @@ public class ProductController {
         Page<Product> bannerPage = new Page<>(page,limit);
         QueryWrapper<Product> wrapper = new QueryWrapper<>();
         wrapper.orderByDesc("update_time");
+        wrapper.eq("status",0);
         wrapper.eq(cid!=null,"category_id",cid);
         IPage<Product> pages = productService.page(bannerPage, wrapper);
         return ServerResponse.ofSuccess(packageResponse(pages.getRecords()));
@@ -113,7 +118,7 @@ public class ProductController {
     @ResponseBody
     public ServerResponse search(@RequestParam(required = false) String key,@RequestParam(required = false) String price,
                                  @RequestParam(required = false) String time, @RequestParam(required = false) Integer school,
-                                 @RequestParam(defaultValue = "1") Integer page, @RequestParam(defaultValue = "10")Integer limit){
+                                 @RequestParam(required = false) Integer uid, @RequestParam(defaultValue = "1") Integer page, @RequestParam(defaultValue = "10")Integer limit){
 
         Page<Product> bannerPage = new Page<>(page,limit);
         QueryWrapper<Product> wrapper = new QueryWrapper<>();
@@ -124,6 +129,8 @@ public class ProductController {
         //根据创建时间倒序
         wrapper.orderBy(!StringUtils.isEmpty(time),"asc".equals(time),"update_time");
         wrapper.eq(school!=null,"school_id",school);
+        wrapper.eq(uid!=null,"user_id",uid);
+        wrapper.eq("status",0);
         IPage<Product> pages = productService.page(bannerPage,wrapper);
         return ServerResponse.ofSuccess(packageResponse(pages.getRecords()));
     }
@@ -145,6 +152,7 @@ public class ProductController {
     @PostMapping("/")
     @ResponseBody
     public ServerResponse insert(@RequestBody Product product){
+        product.setUpdateTime(LocalDateTime.now());
         boolean b = productService.saveOrUpdate(product);
         if (b){
             return ServerResponse.ofSuccess("操作成功",getProductResponse(product));
@@ -160,11 +168,24 @@ public class ProductController {
     @PostMapping("/createorder")
     @ResponseBody
     public ServerResponse createOrder(@RequestBody Order order) {
+        //这里只是逻辑实现 理论上在事务中执行 !
+
+        //判断商品是否可买
+        Integer productId = order.getProductId();
+        Product product = productService.getById(productId);
+        if (product==null || product.getStatus()!=0){
+            return ServerResponse.ofError("商品不可买!");
+        }
 
         // 此处回执单号需要另外处理
         int result = orderService.createOrder(order.getUserId(), order.getProductId(), order.getTotalMoney(),
                 order.getRemarks(), order.getPayFrom(), order.getUserAddress(), order.getUserName(), order.getUserPhone(),
                 order.getTradeNo());
+
+        //设置商品状态
+        product.setStatus(1);
+        product.setBuyerId(order.getUserId());
+        productService.saveOrUpdate(product);
 
         if (result > 0) {
             return ServerResponse.ofSuccess("下单成功！");
@@ -172,5 +193,23 @@ public class ProductController {
             return ServerResponse.ofError("下单失败！");
         }
     }
+
+    @GetMapping("/status")
+    @ResponseBody
+    public ServerResponse status(Integer uid){
+        //发布中
+        int publishCount = productService.count(new QueryWrapper<Product>().eq("user_id", uid).eq("status",0));
+        //已卖出
+        int hasSoldCount = productService.count(new QueryWrapper<Product>().eq("user_id", uid).eq("status",1));
+        //已买到
+        int hasGetCount = productService.count(new QueryWrapper<Product>().eq("buyer_id",uid));
+
+        Map<String,Integer> map = new HashMap<>();
+        map.put("pc",publishCount);
+        map.put("sc",hasSoldCount);
+        map.put("gc",hasGetCount);
+        return ServerResponse.ofSuccess(map);
+    }
+
 }
 

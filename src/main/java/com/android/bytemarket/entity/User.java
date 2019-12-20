@@ -66,6 +66,12 @@ public class User extends Model<User> {
 
     private String rongCloudToken;
 
+    /**
+     * 用来方便显示学校
+     */
+    @TableField(exist = false)
+    private String schoolName;
+
     @Override
     protected Serializable pkVal() {
         return this.id;
