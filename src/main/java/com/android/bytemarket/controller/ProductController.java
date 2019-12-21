@@ -4,8 +4,11 @@ package com.android.bytemarket.controller;
 import com.android.bytemarket.common.ServerResponse;
 import com.android.bytemarket.entity.Order;
 import com.android.bytemarket.entity.Product;
+import com.android.bytemarket.entity.Store;
 import com.android.bytemarket.entity.User;
+import com.android.bytemarket.entity.response.OrderResponse;
 import com.android.bytemarket.entity.response.ProductResponse;
+import com.android.bytemarket.entity.response.StoreResponse;
 import com.android.bytemarket.service.OrderService;
 import com.android.bytemarket.service.ProductService;
 import com.android.bytemarket.service.UserService;
@@ -20,10 +23,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
-import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  *  前端控制器
@@ -52,6 +53,13 @@ public class ProductController {
         Product product = productService.getById(id);
         ProductResponse productResponse = getProductResponse(product);
         return ServerResponse.ofSuccess(productResponse);
+    }
+
+    @DeleteMapping("/{id}")
+    @ResponseBody
+    public ServerResponse del(@PathVariable("id") Integer id){
+        productService.removeById(id);
+        return ServerResponse.ofSuccess("删除成功");
     }
 
     /**
@@ -209,6 +217,71 @@ public class ProductController {
         map.put("sc",hasSoldCount);
         map.put("gc",hasGetCount);
         return ServerResponse.ofSuccess(map);
+    }
+
+    /*
+        根据状态获取商品列表
+     */
+    @GetMapping("/listByStatus")
+    @ResponseBody
+    public ServerResponse listByStatus(Integer status,Integer uid){
+        List<Product> list = productService.list(new QueryWrapper<Product>().eq("user_id", uid).eq("status", status));
+        List<Store> stores = new ArrayList<>();
+        list.forEach(v->{
+            Store store = new Store();
+            store.setId(0);
+            store.setProductId(v.getId());
+            stores.add(store);
+        });
+
+        return getStoreList(stores);
+    }
+
+    private ServerResponse getStoreList(List<Store> list) {
+        List<StoreResponse> responses = new ArrayList<>();
+        list.forEach(v -> {
+            Product product = productService.getById(v.getProductId());
+            ProductResponse productResponse = getProductResponse(product);
+            StoreResponse storeResponse = new StoreResponse();
+            storeResponse.setGoods(productResponse);
+            storeResponse.setId(v.getId());
+            responses.add(storeResponse);
+        });
+        return ServerResponse.ofSuccess(responses);
+    }
+
+    /*
+        已卖出
+     */
+    @GetMapping("/list/{type}")
+    @ResponseBody
+    public ServerResponse listSoldOrder(@PathVariable String type,Integer uid){
+        List<Order> orders;
+        if ("got".equals(type)){
+            orders = orderService.list(new QueryWrapper<Order>().eq("user_id",uid));
+        }else {
+            orders = orderService.list(new QueryWrapper<Order>().eq("owner_id",uid));
+        }
+        List<OrderResponse> ret = new ArrayList<>();
+        orders.forEach(v -> {
+            OrderResponse orderResponse = new OrderResponse();
+            orderResponse.setId(v.getId());
+            orderResponse.setOrderNum(v.getOrderNum());
+            orderResponse.setProductResponse(getProductResponse(productService.getById(v.getProductId())));
+            orderResponse.setUserName(v.getUserName());
+            orderResponse.setUserPhone(v.getUserPhone());
+            orderResponse.setUserAddress(v.getUserAddress());
+            String status;
+            if (v.getStatus()==0){
+                status = "交易进行中";
+            }else{
+                status = "已完成";
+            }
+            orderResponse.setStatus(status);
+            ret.add(orderResponse);
+        });
+
+        return ServerResponse.ofSuccess(ret);
     }
 
 }

@@ -33,6 +33,8 @@ public class Order {
     // 下单用户id
     private Integer userId;
 
+    private Integer ownerId;
+
     // 商品id
     private Integer productId;
 
