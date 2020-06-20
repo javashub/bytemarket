@@ -30,6 +30,12 @@ public class CategoryController {
     @Autowired
     private CategoryService categoryService;
 
+    /**
+     * 根据类别获取商品列表，每次显示10条记录
+     * @param page
+     * @param limit
+     * @return
+     */
     @GetMapping("/list")
     public ServerResponse list(@RequestParam(defaultValue = "1")Integer page, @RequestParam(defaultValue = "10")Integer limit){
         Page<Category> bannerPage = new Page<>(page,limit);

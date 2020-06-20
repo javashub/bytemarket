@@ -12,6 +12,12 @@ spring:
     multipart:
       max-file-size: 200MB
       max-request-size: 200MB
+  thymeleaf:
+    cache: true
+  devtools:
+    restart:
+      enabled: true
+      additional-paths: src/main/java
 
 
 mybatis-plus:

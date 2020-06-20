@@ -64,6 +64,7 @@ public class Product extends Model<Product> {
 
     private Integer schoolId;
 
+
     @TableField(fill = FieldFill.INSERT)
     private LocalDateTime createTime;
 

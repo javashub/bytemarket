@@ -111,6 +111,7 @@ public class StoreController {
     }
 
 
+    // 设置商品的一些相关信息
     private ProductResponse getProductResponse(Product product) {
         ProductResponse productResponse = new ModelMapper().map(product, ProductResponse.class);
         User u = userService.getById(productResponse.getUserId());

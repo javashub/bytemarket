@@ -18,9 +18,17 @@ public class BannerController {
     @Autowired
     private BannerService bannerService;
 
+    /**
+     * 显示轮播图
+     * @param page
+     * @param limit
+     * @return
+     */
     @GetMapping("/list")
     public ServerResponse list(@RequestParam(defaultValue = "1")Integer page,@RequestParam(defaultValue = "10")Integer limit){
+        //
         Page<Banner> bannerPage = new Page<>(page,limit);
+        //
         IPage<Banner> pages = bannerService.page(bannerPage);
         return ServerResponse.ofSuccess(pages.getRecords());
     }

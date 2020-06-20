@@ -7,6 +7,7 @@ import lombok.Setter;
 @Getter
 @AllArgsConstructor
 public enum StoreEnum {
+
     COLLECT(1000,"收藏"),
     HISTORY(1001,"历史");
 

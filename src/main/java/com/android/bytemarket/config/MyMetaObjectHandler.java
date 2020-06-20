@@ -5,6 +5,9 @@ import org.apache.ibatis.reflection.MetaObject;
 import org.springframework.context.annotation.Configuration;
 import java.time.LocalDateTime;
 
+/**
+ *
+ */
 @Configuration
 public class MyMetaObjectHandler implements MetaObjectHandler {
 

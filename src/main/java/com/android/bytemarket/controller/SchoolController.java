@@ -34,6 +34,12 @@ public class SchoolController {
     @Autowired
     private ProductService productService;
 
+    /**
+     * 显示学校列表
+     * @param page
+     * @param limit
+     * @return
+     */
     @GetMapping("/list")
     public ServerResponse list(@RequestParam(defaultValue = "1") Integer page, @RequestParam(defaultValue = "10") Integer limit){
         Page<School> p = new Page<>(page,limit);
@@ -41,6 +47,11 @@ public class SchoolController {
         return ServerResponse.ofSuccess(pac(schoolPage.getRecords()));
     }
 
+    /**
+     *
+     * @param list
+     * @return
+     */
     private List<SchoolResponse> pac(List<School> list){
         List<SchoolResponse> ret = new LinkedList<>();
         list.forEach(v -> {

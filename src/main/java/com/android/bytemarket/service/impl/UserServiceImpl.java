@@ -138,7 +138,7 @@ public class UserServiceImpl extends ServiceImpl<UserDao, User> implements UserS
 
     /**
      * 用户个人中心数据显示
-     * 显示已买到、已卖出、收藏等数据
+     * 显示已买到、已卖出、等数据
      * @param userId 当前登录的用户的ID
      * @return
      */
@@ -150,21 +150,25 @@ public class UserServiceImpl extends ServiceImpl<UserDao, User> implements UserS
 
         // 构造根据当前登录用户id查询其发布的商品的条件
         QueryWrapper<Product> wrapper1 = new QueryWrapper<Product>().eq("user_id", userId);
-        // 获取已发布的商品，显示数量，点击进去后显示已发布的商品列表
+        // 获取"已发布"的商品，显示数量，点击进去后显示已发布的商品列表
         List<Product> products = produtDao.selectList(wrapper1);
-        // 显示数量，这句可要可不要
+        // 已发布数量，这句可要可不要
         int myProducts = products.size();
 
-        // 构造查询已卖出条件，0表示未卖出，1表示已卖出
+        // 构造查询"已卖出"条件，0表示未卖出，1表示已卖出
         QueryWrapper<Product> wrapper2 = new QueryWrapper<Product>().eq("user_id", userId).eq("status", 1);
-        // 已卖出
+        // 已卖出商品集合
         List<Product> sold = produtDao.selectList(wrapper2);
-        // 数量
+        // 已卖出数量
         int mySolds = sold.size();
 
+        // 已买到
+        QueryWrapper<Product> wrapper3 = new QueryWrapper<Product>().eq("user_id", userId);
+        //
 
         return null;
     }
+
 
 
 }

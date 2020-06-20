@@ -8,7 +8,7 @@ import org.springframework.context.annotation.Configuration;
 /**
  * @author: 15760
  * @Date: 2019/11/28
- * @Descripe:
+ * @Descripe: 分页插件
  */
 @Configuration
 @MapperScan("com.android.bytemarket.dao")

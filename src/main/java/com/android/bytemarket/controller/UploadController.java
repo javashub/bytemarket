@@ -19,12 +19,24 @@ import java.io.IOException;
 @RequestMapping("/upload")
 public class UploadController {
 
+    /**
+     * 处理上传多个文件
+     * @param file
+     * @return
+     * @throws IOException
+     */
     @PostMapping("/images")
     public ServerResponse uploads(MultipartFile[] file) throws IOException {
         String[] url = FileUpload.upLoads(file);
         return ServerResponse.ofSuccess(StringUtils.join(url, ","));
     }
 
+    /**
+     * 处理上传单个文件
+     * @param file
+     * @return
+     * @throws IOException
+     */
     @PostMapping("/image")
     public ServerResponse upload(MultipartFile file) throws IOException {
         String url = FileUpload.upLoad(file);

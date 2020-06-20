@@ -74,6 +74,16 @@ public class UserController {
         }
     }
 
+    /**
+     * 修改个人信息
+     * 头像、昵称、个性签名、学校
+     * @return
+     */
+    @PostMapping("updateuserinfo")
+    public ServerResponse updateUserInfo(@RequestParam String avartar, @RequestParam String nickname,
+                                         @RequestParam String description, @RequestParam Integer schoolId) {
 
+        return ServerResponse.ofSuccess("OK");
+    }
 }
 

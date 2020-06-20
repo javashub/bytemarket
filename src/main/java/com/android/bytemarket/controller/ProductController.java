@@ -38,7 +38,19 @@ public class ProductController {
     private OrderService orderService;
 
     /**
-     * 根据id查找商品
+     * 渲染前端商品详情页面：detail.html
+     * @param id
+     * @param model
+     * @return
+     */
+    @GetMapping("/html/{id}")
+    public String getHtml(@PathVariable("id") Integer id, Model model){
+        model.addAttribute("id",id);
+        return "detail";
+    }
+
+    /**
+     * 根据id获取商品的详情信息
      * @param id
      * @return
      */
@@ -51,19 +63,7 @@ public class ProductController {
     }
 
     /**
-     * 商品详情页面，返回并渲染前端页面：detail.html
-     * @param id
-     * @param model
-     * @return
-     */
-    @GetMapping("/html/{id}")
-    public String getHtml(@PathVariable("id") Integer id, Model model){
-        model.addAttribute("id",id);
-        return "detail";
-    }
-
-    /**
-     *
+     * 获取并封装商品信息返回
      * @param product
      * @return
      */
@@ -117,6 +117,7 @@ public class ProductController {
 
         Page<Product> bannerPage = new Page<>(page,limit);
         QueryWrapper<Product> wrapper = new QueryWrapper<>();
+
         //搜索关键字
         wrapper.like(!StringUtils.isEmpty(key),"title",key);
         //根据价格降序
@@ -128,6 +129,11 @@ public class ProductController {
         return ServerResponse.ofSuccess(packageResponse(pages.getRecords()));
     }
 
+    /**
+     * 封装商品数据
+     * @param products
+     * @return
+     */
     private List<ProductResponse> packageResponse(List<Product> products){
         List<ProductResponse> list = new LinkedList<>();
         products.forEach(v->{

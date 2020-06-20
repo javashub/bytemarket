@@ -29,4 +29,7 @@ public interface UserService extends IService<User> {
     // 用户个人中心数据显示
     List userCenter(Integer userId);
 
+    // 修改个人资料
+//    void updateUserInfo(Integer uid, String avartar, String nickname, String description, Integer schoolId);
+
 }
