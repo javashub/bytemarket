@@ -1,5 +1,9 @@
 package com.android.bytemarket.entity;
 
+<<<<<<< HEAD
+=======
+import com.baomidou.mybatisplus.annotation.IdType;
+>>>>>>> 298a402bc66a7cd9396a8eb90da6db72dae04e07
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.AllArgsConstructor;
@@ -23,7 +27,11 @@ import java.time.LocalDateTime;
 public class Order {
 
     // 订单id
+<<<<<<< HEAD
     @TableId("id")
+=======
+    @TableId(value = "id", type = IdType.AUTO)
+>>>>>>> 298a402bc66a7cd9396a8eb90da6db72dae04e07
     private Integer id;
 
     // 订单号码
@@ -31,6 +39,8 @@ public class Order {
 
     // 下单用户id
     private Integer userId;
+
+    private Integer ownerId;
 
     // 商品id
     private Integer productId;
